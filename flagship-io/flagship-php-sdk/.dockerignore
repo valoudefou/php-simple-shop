@@ -1,0 +1,11 @@
+.git
+.gitignore
+dockers
+.idea
+vendor
+reports
+composer.lock
+example/vendor
+example/reports
+example/storage/logs/*
+example/storage/framework/sessions/*

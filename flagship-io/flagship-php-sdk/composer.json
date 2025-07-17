@@ -1,0 +1,38 @@
+{
+  "name": "flagship-io/flagship-php-sdk",
+  "type": "library",
+  "description": "Flagship PHP SDK",
+  "keywords": ["flagship", "sdk", "flagship-php"],
+  "homepage": "https://github.com/flagship-io/flagship-php-sdk",
+  "authors": [
+    {
+      "name": "Flagship.io"
+    }
+  ],
+  "license": "Apache-2.0",
+  "require": {
+    "php": ">=8.1",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "psr/log": "^3.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.10",
+    "phpunit/phpunit": "^9.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Flagship\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Flagship\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "check-style": "phpcs --standard=PSR12 -n src tests",
+    "fix-style": "phpcbf  --standard=phpcs.xml src tests"
+  }
+}
