@@ -2,15 +2,7 @@
   "installCommand": "composer install --no-dev --optimize-autoloader",
   "functions": {
     "*.php": {
-      "runtime": "vercel-php@0.6.2",
-      "includeFiles": [
-        "vendor/**",
-        "composer/**",
-        "flagship-io/**",
-        "monolog/**",
-        "psr/**",
-        "partials/**"
-      ]
+      "runtime": "vercel-php@0.6.2"
     }
   },
   "routes": [
