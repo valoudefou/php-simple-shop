@@ -29,6 +29,9 @@ $logJson = json_encode(
   <div class="log-panel__body" data-log-list>
     <p class="muted">No Flagship logs yet.</p>
   </div>
+  <button type="button" class="log-panel__floating" data-log-toggle>
+    LOGS · PRESS L
+  </button>
 </div>
 <script>
   window.__FLAGSHIP_LOGS__ = <?= $logJson ?: '[]' ?>;
@@ -41,6 +44,7 @@ $logJson = json_encode(
     const listEl = panel.querySelector('[data-log-list]');
     const searchEl = panel.querySelector('[data-log-search]');
     const closeBtn = panel.querySelector('[data-log-close]');
+    const toggleBtn = panel.querySelector('[data-log-toggle]');
 
     const escapeHtml = (value = '') =>
       String(value)
@@ -101,19 +105,17 @@ $logJson = json_encode(
     };
 
     document.addEventListener('keydown', (event) => {
-      if (
-        event.key.toLowerCase() === 'l' &&
-        !event.metaKey &&
-        !event.ctrlKey &&
-        !event.altKey
-      ) {
-        const tag = (event.target?.tagName || '').toLowerCase();
-        if (['input', 'textarea'].includes(tag)) {
-          return;
-        }
-        event.preventDefault();
-        togglePanel();
+      if (event.key.toLowerCase() !== 'l') {
+        return;
       }
+      if (event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+      const tag = (event.target?.tagName || '').toLowerCase();
+      if (['input', 'textarea'].includes(tag)) {
+        event.preventDefault();
+      }
+      togglePanel();
     });
 
     searchEl?.addEventListener('input', (event) => {
@@ -121,6 +123,7 @@ $logJson = json_encode(
     });
 
     closeBtn?.addEventListener('click', () => togglePanel(false));
+    toggleBtn?.addEventListener('click', () => togglePanel());
 
     render('');
   })();

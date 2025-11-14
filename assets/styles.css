@@ -313,7 +313,7 @@ footer {
 
 .log-panel {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: 4.5rem;
   right: 1.5rem;
   width: min(420px, calc(100% - 2rem));
   max-height: 70vh;
@@ -411,6 +411,39 @@ footer {
 .log-panel__close {
   padding: 0.35rem 0.75rem;
   font-size: 0.85rem;
+}
+
+.log-panel__floating {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.35);
+  cursor: pointer;
+  transition: transform 180ms ease, opacity 180ms ease;
+  z-index: 900;
+}
+
+.log-panel__floating:hover {
+  transform: translateY(-3px);
+}
+
+.log-panel.is-open .log-panel__floating {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+}
+
+.log-panel.is-open + .log-panel__floating,
+.log-panel__floating:hover {
+  transform: translateY(-3px);
 }
 
 @media (max-width: 600px) {
