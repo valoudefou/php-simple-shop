@@ -29,10 +29,10 @@ $logJson = json_encode(
   <div class="log-panel__body" data-log-list>
     <p class="muted">No Flagship logs yet.</p>
   </div>
-  <button type="button" class="log-panel__floating" data-log-toggle>
-    LOGS · PRESS L
-  </button>
 </div>
+<button type="button" class="log-panel__floating" data-log-toggle>
+  LOGS · PRESS L
+</button>
 <script>
   window.__FLAGSHIP_LOGS__ = <?= $logJson ?: '[]' ?>;
   (function () {
@@ -44,7 +44,7 @@ $logJson = json_encode(
     const listEl = panel.querySelector('[data-log-list]');
     const searchEl = panel.querySelector('[data-log-search]');
     const closeBtn = panel.querySelector('[data-log-close]');
-    const toggleBtn = panel.querySelector('[data-log-toggle]');
+    const toggleBtn = document.querySelector('[data-log-toggle]');
 
     const escapeHtml = (value = '') =>
       String(value)
