@@ -2,6 +2,17 @@
 // Suppress deprecated warnings from Flagship SDK on PHP 8.1+
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
+$sessionSavePath = ini_get('session.save_path');
+if (!$sessionSavePath || !is_dir($sessionSavePath) || !is_writable($sessionSavePath)) {
+    $fallbackDir = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'simple-php-shop-sessions';
+    if (!is_dir($fallbackDir)) {
+        @mkdir($fallbackDir, 0777, true);
+    }
+    if (is_dir($fallbackDir) && is_writable($fallbackDir)) {
+        session_save_path($fallbackDir);
+    }
+}
+
 session_start();
 
 require __DIR__ . '/vendor/autoload.php';
@@ -128,6 +139,45 @@ if (!function_exists('flagshipVisitorId')) {
             }
         }
         return $_SESSION['flagship_visitor_id'];
+    }
+}
+
+if (!function_exists('transactionLogPath')) {
+    function transactionLogPath(): string
+    {
+        static $resolvedPath = null;
+        if ($resolvedPath) {
+            return $resolvedPath;
+        }
+
+        $projectLog = __DIR__ . '/transactions.log';
+        $projectWritable = file_exists($projectLog)
+            ? is_writable($projectLog)
+            : is_writable(__DIR__);
+
+        if ($projectWritable) {
+            $resolvedPath = $projectLog;
+            return $resolvedPath;
+        }
+
+        $tempBase = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'simple-php-shop';
+        if (!is_dir($tempBase)) {
+            @mkdir($tempBase, 0777, true);
+        }
+
+        $resolvedPath = $tempBase . DIRECTORY_SEPARATOR . 'transactions.log';
+        return $resolvedPath;
+    }
+}
+
+if (!function_exists('appendTransactionLog')) {
+    function appendTransactionLog(array $transactionData): void
+    {
+        $path = transactionLogPath();
+        $line = json_encode($transactionData) . PHP_EOL;
+        if (@file_put_contents($path, $line, FILE_APPEND | LOCK_EX) === false) {
+            error_log(sprintf('Unable to write transaction log to %s', $path));
+        }
     }
 }
 

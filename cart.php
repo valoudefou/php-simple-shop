@@ -110,7 +110,7 @@ if ($checkoutFlow === 1) {
                 'total' => $total
             ];
 
-            file_put_contents('transactions.log', json_encode($transactionData) . PHP_EOL, FILE_APPEND);
+            appendTransactionLog($transactionData);
 
             $transactionId = 'order_' . time();
             $transaction = (new Transaction($transactionId, "purchase"))
@@ -189,7 +189,10 @@ if ($checkoutFlow === 1) {
               <span>Total paid</span>
               <strong>$<?= number_format($total, 2) ?></strong>
             </div>
-            <p class="muted">A sandbox receipt has been logged locally in <code>transactions.log</code>.</p>
+            <p class="muted">
+              A sandbox receipt has been logged locally in
+              <code><?= htmlspecialchars(transactionLogPath()) ?></code>.
+            </p>
             <div style="display:flex; gap:1rem;">
               <a class="primary-btn" href="index.php">Back to home</a>
               <a class="ghost-btn" href="index.php">Browse products</a>

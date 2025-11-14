@@ -11,6 +11,21 @@ php -S 127.0.0.1:8000
 
 Then open <http://127.0.0.1:8000> and tap `L` (outside inputs) to pop open the in-browser AB Tasty log viewer for live SDK output.
 
+## Deploying to Vercel
+
+This repo ships with `vercel.json`, so you only need the Vercel CLI:
+
+```bash
+npm i -g vercel         # once
+vercel login            # authenticate
+vercel link             # link this directory to a Vercel project
+vercel env add FLAGSHIP_ENV_ID   # add your Flagship env id
+vercel env add FLAGSHIP_API_KEY  # add the matching API key
+vercel --prod           # deploy
+```
+
+The config tells Vercel to run `composer install --no-dev --optimize-autoloader`, bundle the PHP entry points with `vercel-php`, and route all non-static paths through `index.php`. Local filesystem writes (e.g., `transactions.log`) fall back to `/tmp/simple-php-shop/transactions.log` on the serverless runtime so the demo keeps ticking even on read-only deployments.
+
 ## Integration
 
 - `bootstrap.php` boots the AB Tasty SDK with verbose logging.
@@ -60,7 +75,7 @@ A new feature flag (`checkout_flow`) powers two checkout experiences:
    - When `$checkoutFlow === 1`, `cart.php` renders the integrated flow and `checkout.php` immediately redirects back to `cart.php`.
 4. **For local QA** you can force either path (and thereby change the default AB Tasty value) via `?checkout_flow=0` or `?checkout_flow=1` in the query string. This preference is stored in the session so it persists while you browse.
 
-Both flows create AB Tasty transaction + item hits and append a JSON line to `transactions.log`.
+Both flows create AB Tasty transaction + item hits and append a JSON line to the transaction log (project-root locally, `/tmp/simple-php-shop/transactions.log` on Vercel).
 
 ### Telemetry Hits
 
@@ -84,7 +99,7 @@ AB Tasty logs are captured in an in-memory ring buffer (latest 200 entries) via 
 - `cart.php` – Cart table plus optional integrated checkout flow.
 - `checkout.php` – Dedicated checkout form + confirmation (used when `checkout_flow = 0`).
 - `partials/log-panel.php` – Reusable AB Tasty log viewer.
-- `transactions.log` – Local append-only record of mock orders.
+- `transactions.log` – Local append-only record of mock orders (or `/tmp/simple-php-shop/transactions.log` on Vercel).
 
 ## Notes
 

@@ -1,0 +1,22 @@
+{
+  "installCommand": "composer install --no-dev --optimize-autoloader",
+  "functions": {
+    "*.php": {
+      "runtime": "vercel-php@0.6.2",
+      "includeFiles": [
+        "vendor/**",
+        "composer/**",
+        "flagship-io/**",
+        "monolog/**",
+        "psr/**",
+        "partials/**"
+      ]
+    }
+  },
+  "routes": [
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/(.*\\.php)", "dest": "/$1" },
+    { "src": "/(favicon\\.ico|robots\\.txt)", "dest": "/$1" },
+    { "src": "/.*", "dest": "/index.php" }
+  ]
+}
