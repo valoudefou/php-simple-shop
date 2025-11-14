@@ -1,0 +1,23 @@
+cu<?php
+$products = [
+  1 => [
+    'name' => 'Product One',
+    'description' => 'This is a great product that serves many purposes.',
+    'price' => 29.99,
+    'image' => 'https://via.placeholder.com/300x200?text=Product+One',
+  ],
+  2 => [
+    'name' => 'Product Two',
+    'description' => 'An excellent choice for your daily needs.',
+    'price' => 49.99,
+    'image' => 'https://via.placeholder.com/300x200?text=Product+Two',
+  ],
+  3 => [
+    'name' => 'Product Three',
+    'description' => 'Top quality and affordable price.',
+    'price' => 19.99,
+    'image' => 'https://via.placeholder.com/300x200?text=Product+Three',
+  ],
+];
+
+
