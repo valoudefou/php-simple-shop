@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": "^8.1",
         "flagship-io/flagship-php-sdk": "^4.1",
         "monolog/monolog": "^3.9"
     }
