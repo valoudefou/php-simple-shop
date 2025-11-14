@@ -27,7 +27,6 @@ $visitor = Flagship::newVisitor($visitorId, true)
 // IMPORTANT: fetch flags from Flagship backend
 $visitor->fetchFlags();
 
-$mainHeadingFlag = $visitor->getFlag("main_heading", "Welcome to Simple PHP Shop");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +48,7 @@ $mainHeadingFlag = $visitor->getFlag("main_heading", "Welcome to Simple PHP Shop
     <main>
       <section class="hero">
         <p class="badge">Developer Preview</p>
-        <h1><?= htmlspecialchars($mainHeadingFlag->getValue("Welcome to Simple PHP Shop")) ?></h1>
+        <h1>Welcome to Simple PHP Shop</h1>
         <p>
           Minimal, fast, and Flagship-ready. Explore a curated selection of products
           while experimenting with feature flags in a no-fuss environment.

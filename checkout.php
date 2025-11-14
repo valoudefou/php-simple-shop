@@ -34,8 +34,6 @@ if ($checkoutFlow === 1) {
     exit;
 }
 
-$mainHeadingFlag = $visitor->getFlag("main_heading", "Welcome to Simple PHP Shop");
-
 include 'products.php';
 
 $cart = $_SESSION['cart'] ?? [];
@@ -270,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <?php else: ?>
         <section class="hero">
           <h1>Order confirmed</h1>
-          <p><?= htmlspecialchars($mainHeadingFlag->getValue("Thanks for exploring the Simple PHP Shop.")) ?></p>
+          <p>Thanks for exploring the Simple PHP Shop.</p>
         </section>
 
         <section class="grid-two">

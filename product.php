@@ -30,9 +30,6 @@ $visitor = Flagship::newVisitor($visitorId, true)
 // IMPORTANT: fetch flags from Flagship backend
 $visitor->fetchFlags();
 
-
-$mainHeadingFlag = $visitor->getFlag("main_heading", "Welcome to Simple PHP Shop");
-
 if (!isset($_GET['id']) || !isset($products[$_GET['id']])) {
   header('Location: index.php');
   exit;

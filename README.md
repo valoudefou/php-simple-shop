@@ -31,7 +31,6 @@ The config tells Vercel to run `composer install --no-dev --optimize-autoloader`
 - `bootstrap.php` boots the AB Tasty SDK with verbose logging.
 - Copy `.env.example` to `.env` and provide your `FLAGSHIP_ENV_ID` / `FLAGSHIP_API_KEY`; `bootstrap.php` loads them at runtime so secrets stay out of version control. If the file is missing, the app falls back to the public demo credentials bundled with the repo so you can still run the project locally.
 - Every page calls `flagshipVisitorId()` to generate a random visitor for each fetch, making it easy to see variation responses. A `uniqid` fallback covers environments without `random_bytes`.
-- `index.php`, `product.php`, `cart.php`, and `checkout.php` fetch the `main_heading` flag for dynamic hero content.
 - Before each visitor is built we call `fetchSearchQueryForCountry('GB')`; when that mock Search Console API responds it returns the last GB search query (e.g., “feature flag tool”), and we inject it into the AB Tasty context as `query => "<term>"` so features can target users based on what they searched before landing here. The endpoint is a curl-friendly proxy that mimics Google Search Console:
 
   ```bash
@@ -94,7 +93,7 @@ AB Tasty logs are captured in an in-memory ring buffer (latest 200 entries) via 
 
 ## File Guide
 
-- `index.php` – Landing page with product grid and feature-flagged hero.
+- `index.php` – Landing page with product grid and hero banner.
 - `product.php` – Product detail view with add-to-cart form.
 - `cart.php` – Cart table plus optional integrated checkout flow.
 - `checkout.php` – Dedicated checkout form + confirmation (used when `checkout_flow = 0`).
