@@ -65,12 +65,13 @@ A new feature flag (`checkout_flow`) powers two checkout experiences:
 
 #### Activating checkout Flow Variants with AB Tasty
 
-1. **Define the `checkout_flow` flag in AB Tasty app** with two variations (`0` and `1`). Ensure it is typed as a numeric or JSON flag returning an integer.
-2. **Pass the desired targeting context from PHP**:
+1. **Create the `checkout_flow` flag in AB Tasty** with two variations (`0` and `1`) so you can toggle between checkout experiences.
+2. **Pass intent-driven context from PHP**—the search query fetched from Google Search Console becomes part of the visitor payload:
    ```php
    $checkoutFlowPreference = currentCheckoutFlowPreference(); // respects ?checkout_flow=0|1 override
    $context = [
        'company' => 'Dyson',
+       'query' => fetchSearchQueryForCountry('GB'), // intent captured from Search Console proxy
    ];
    $visitor = Flagship::newVisitor(flagshipVisitorId(), true)
        ->setContext($context)
