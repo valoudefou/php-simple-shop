@@ -13,6 +13,7 @@ Then open <http://127.0.0.1:8000> and tap `L` (outside inputs) to pop open the i
 
 ## Integration
 
+- **Search intent personalisation** – Visitors arriving from a search engine inherit the query term from Google Search Console (via `fetchSearchQueryForCountry`). The term is stored in the session and fed into the AB Tasty SDK so flags can target intent-driven segments.
 - `bootstrap.php` boots the AB Tasty SDK with verbose logging.
 - Copy `.env.example` to `.env` and provide your `FLAGSHIP_ENV_ID` / `FLAGSHIP_API_KEY`; `bootstrap.php` loads them at runtime so secrets stay out of version control. If the file is missing, the app falls back to the public demo credentials bundled with the repo so you can still run the project locally.
 - Every page calls `flagshipVisitorId()` to generate a random visitor for each fetch, making it easy to see variation responses. A `uniqid` fallback covers environments without `random_bytes`.
@@ -27,6 +28,31 @@ Then open <http://127.0.0.1:8000> and tap `L` (outside inputs) to pop open the i
 
   which responds with rows containing `query`, `country`, etc., letting you demonstrate intent-based targeting without real GSC credentials.
 - You can force the checkout experience by appending `?checkout_flow=0` or `?checkout_flow=1` to any page. The chosen value is stored in the session and used as the default value for the `checkout_flow` feature flag—so forcing `0` keeps the standard two-step flow while `1` exercises the single-page cart + checkout.
+
+## Search Intent Journey
+
+Visitors often begin on a search engine, typing a phrase such as “feature flag tool.” When they land on Simple PHP Shop, the backend proxies Google Search Console’s Search Analytics API, captures the latest `query` for their country, stores it in the PHP session, and injects it into the AB Tasty SDK context. The SDK caches this value, uses it when fetching the `checkout_flow` flag, and delivers the appropriate variant (classic vs. integrated) on the checkout step. Because add-to-cart, transaction, and item hits include this context, analytics cover the full journey and help you design personalisation experiments rooted in intent data.
+
+```mermaid
+sequenceDiagram
+    participant User as User
+    participant Search as Search Engine
+    participant Shop as Simple PHP Shop
+    participant GSC as Google Search Console API
+    participant Session as PHP Session
+    participant ABT as AB Tasty SDK
+    participant Checkout as Personalised Checkout
+
+    User->>Search: Query "feature flag tool"
+    Search-->>User: Result links (Simple PHP Shop)
+    User->>Shop: Click landing page
+    Shop->>GSC: Fetch latest search intent for country
+    GSC-->>Shop: Search query payload
+    Shop->>Session: Persist intent term in session
+    Shop->>ABT: Pass intent in visitor context
+    ABT-->>Shop: Resolve checkout_flow flag
+    Shop->>Checkout: Render variant + emit analytics hits
+```
 
 ### Checkout Flow Flag
 
