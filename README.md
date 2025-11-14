@@ -11,21 +11,6 @@ php -S 127.0.0.1:8000
 
 Then open <http://127.0.0.1:8000> and tap `L` (outside inputs) to pop open the in-browser AB Tasty log viewer for live SDK output.
 
-## Deploying to Vercel
-
-This repo includes `vercel.json`, so the full deployment flow is:
-
-```bash
-npm i -g vercel         # once
-vercel login            # authenticate
-vercel link             # link this directory to the php-simple-shop project
-vercel env add FLAGSHIP_ENV_ID
-vercel env add FLAGSHIP_API_KEY
-vercel --prod
-```
-
-The config runs `composer install --no-dev --optimize-autoloader`, ships your PHP code via a lightweight serverless router (`api/router.php`), and serves `/assets/**` statically. Local writes such as `transactions.log` fall back to `/tmp/simple-php-shop/transactions.log` on Vercel’s filesystem, so checkout telemetry keeps working there too.
-
 ## Integration
 
 - `bootstrap.php` boots the AB Tasty SDK with verbose logging.
