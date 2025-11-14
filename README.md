@@ -71,7 +71,6 @@ A new feature flag (`checkout_flow`) powers two checkout experiences:
    $checkoutFlowPreference = currentCheckoutFlowPreference(); // respects ?checkout_flow=0|1 override
    $context = [
        'company' => 'Dyson',
-       'checkout_flow' => $checkoutFlowPreference, // optional if you want AB Tasty to target on it
    ];
    $visitor = Flagship::newVisitor(flagshipVisitorId(), true)
        ->setContext($context)
